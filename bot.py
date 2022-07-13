@@ -24,7 +24,7 @@ async def process_help_command(message: types.Message):
     messages_dict = get_data()
     for button in messages_dict:
         exc_kb.add(button)
-    await message.reply("Обновленно! Выберите интересующий вас обменник из списка.", reply_markup=exc_kb)
+    await message.reply("Обновленно! Выберите интересующий вас обменник из списка. \nОТСОРТИРОВАННО: 'Продажа' - возрастание", reply_markup=exc_kb)
 
 
 @dp.message_handler()

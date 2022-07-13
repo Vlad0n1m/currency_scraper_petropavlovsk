@@ -21,7 +21,7 @@ def currencies_format(cur):
         rub_sell = 'Не актуально, попроуйте позже...'
     return [usd_buy, usd_sell, eur_buy, eur_sell, rub_buy, rub_sell]
 def get_data():
-    response = requests.get("https://ifin.kz/exchange/petropavlovsk")
+    response = requests.get("https://ifin.kz/exchange/petropavlovsk?sort=sellingPrice3")
     soup = BeautifulSoup(response.text, "html.parser")
     messages = {}
     rows = soup.find_all('div', class_='tbl-row row-toggle company-row')
@@ -30,7 +30,7 @@ def get_data():
         url = f'https://ifin.kz{name.get("href")}'
         currencies = row.find_all('div', class_=('tbl-td rate-value', 'tbl-td rate-value best'))
         formated_curs = currencies_format(currencies)
-        msg = f"Обменник - {name.text}\n$ ДОЛЛАР $\nКупить - {formated_curs[0]} тг. | Продать - {formated_curs[1]} тг.\n€ ЕВРО €\nКупить - {formated_curs[2]} тг. | Продать - {formated_curs[3]} тг.\n₱ РУБЛЬ ₱\nКупить - {formated_curs[4]} тг. | Продать - {formated_curs[5]} тг.\n\n URL - {url}"
+        msg = f"Обменник - {name.text}\n$ ДОЛЛАР $\nПокупка - {formated_curs[0]} тг. | Продажа - {formated_curs[1]} тг.\n€ ЕВРО €\nПокупка - {formated_curs[2]} тг. | Продажа - {formated_curs[3]} тг.\n₱ РУБЛЬ ₱\nПокупка - {formated_curs[4]} тг. | Продажа - {formated_curs[5]} тг.\n\n URL - {url}\nHINT: Перед тем идти обменивать валюту, позвоните в обменный пункт,чтобы уточнить курс. Когда вы окажетесь в обменном пункте, курсы могут измениться"
         messages[str(name.text)]=msg
 
     return messages
